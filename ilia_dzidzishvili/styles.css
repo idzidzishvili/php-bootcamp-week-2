@@ -1,0 +1,64 @@
+.container, form{
+   padding-top: 20px;
+   margin: auto;
+   width: 100%;
+   max-width: 800px;
+   display: flex;
+   flex-direction: column;
+}
+h1{
+   border-bottom: solid #dddbdb 1px;
+}
+label{
+   margin-bottom: 4px;
+}
+input{
+   border:solid grey 1px;
+   border-radius: 4px;
+   font-size: 14px;
+   padding: 8px;
+   margin-bottom: 12px;
+}
+input:focus{
+   border: solid blue 1px;
+   outline: #6ca2e9;
+}
+button{
+   width: fit-content;
+   padding: 8px 20px;
+}
+.error-messages{
+   border: solid #f97f7f 1px;
+   background-color: #ffc1be;
+   border-radius: 4px;
+   padding: 8px;
+   color: #f90909;
+}
+label+input[type=radio]{
+   display:inline;
+}
+.form-group{
+   display: flex;
+}
+table { 
+   border-spacing: 0px;
+}
+table td, table th {
+   border: 1px solid #ddd;
+   padding: 8px;
+}
+table#followers td{
+   padding-top: 2px;
+   padding-bottom: 2px;
+}
+ 
+table tr:nth-child(even){background-color: #f2f2f2;}
+ 
+table tr:hover {background-color: #ddd;}
+ 
+table th {
+   padding-top: 12px;
+   padding-bottom: 12px;
+   background-color: #858be7;
+   color: white;
+}
