@@ -15,16 +15,18 @@
       $repositories = null;
       $followers = null;
       $message = null;
+      $ispost = false;
       if(isset($_POST["username"]) || isset($_POST["repo-foll"])) 
       {
+         $ispost = true;
          if($_POST["repo-foll"] == 1 || $_POST["repo-foll"] == 3)
-            $repositories = curl($_POST["username"], 'repos');
+            $repositories = curl2($_POST["username"], 'repos');
 
          if($_POST["repo-foll"] == 2 || $_POST["repo-foll"] == 3)
-            $followers = curl($_POST["username"], 'followers');                  
+            $followers = curl2($_POST["username"], 'followers');                  
       }
 
-      function curl($username, $uri){
+      function curl2($username, $uri){
          $url = 'https://api.github.com/users/'.$username.'/'.$uri;
          $curl = curl_init();
          curl_setopt($curl, CURLOPT_URL, $url);
@@ -64,61 +66,63 @@
       </form>
    </div>
 
-   <?php if($repositories === null && $followers === null): ?>
-      <div class="container">
-         <div class="error-messages">
-            Username not found
-         </div>
-      </div>
-
-   <?php else: ?>
-
-      <?php if($repositories): ?>
+   <?php if($ispost): ?>
+      <?php if($repositories === null && $followers === null): ?>
          <div class="container">
-            <h3>Repositories</h3>
-            <table id="repos">
-               <thead>
-                  <tr>
-                     <th>#</th>
-                     <th>Name</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <?php foreach($repositories as $i=>$repo):?>
-                     <tr>
-                        <td><?= $i+1 ?></td>
-                        <td><a href="<?= $repo->html_url ?>" target="_blank"><?= $repo->html_url ?></a></td>
-                     </tr>
-                  <?php endforeach; ?>
-               </tbody>
-            </table>
+            <div class="error-messages">
+               Username not found
+            </div>
          </div>
-      <?php endif; ?>
 
-      <?php if($followers): ?>
-         <div class="container">
-            <h3>Followers</h3>
-            <table id="followers">
-               <thead>
-                  <tr>
-                     <th>#</th>
-                     <th>Image</th>
-                     <th>Name</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <?php foreach($followers as $i=>$follower):?>
+      <?php else: ?>
+
+         <?php if($repositories): ?>
+            <div class="container">
+               <h3>Repositories</h3>
+               <table id="repos">
+                  <thead>
                      <tr>
-                        <td><?= $i+1 ?></td>
-                        <td><img src="<?= $follower->avatar_url?>" height="70"></td>
-                        <td><a href="<?= $follower->html_url ?>" target="_blank"><?= $follower->login ?></a></td>
+                        <th>#</th>
+                        <th>Name</th>
                      </tr>
-                  <?php endforeach; ?>
-               </tbody>
-            </table>
-         </div>
-      <?php endif; ?>
+                  </thead>
+                  <tbody>
+                     <?php foreach($repositories as $i=>$repo):?>
+                        <tr>
+                           <td><?= $i+1 ?></td>
+                           <td><a href="<?= $repo->html_url ?>" target="_blank"><?= $repo->html_url ?></a></td>
+                        </tr>
+                     <?php endforeach; ?>
+                  </tbody>
+               </table>
+            </div>
+         <?php endif; ?>
 
+         <?php if($followers): ?>
+            <div class="container">
+               <h3>Followers</h3>
+               <table id="followers">
+                  <thead>
+                     <tr>
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <?php foreach($followers as $i=>$follower):?>
+                        <tr>
+                           <td><?= $i+1 ?></td>
+                           <td><img src="<?= $follower->avatar_url?>" height="70"></td>
+                           <td><a href="<?= $follower->html_url ?>" target="_blank"><?= $follower->login ?></a></td>
+                        </tr>
+                     <?php endforeach; ?>
+                  </tbody>
+               </table>
+            </div>
+         <?php endif; ?>
+
+      <?php endif; ?>
    <?php endif; ?>
 
 </body>
